@@ -1,0 +1,7 @@
+            <div class="nav-logo-icon">
+                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="5,72 38,12 71,72" fill="#2E6DC6" />
+                    <polygon points="38,12 75,72 95,72 62,12" fill="#F5A623" />
+                    <polygon points="38,12 55,42 47,57 31,57" fill="#d6e8f8" opacity=".9" />
+                </svg>
+            </div>

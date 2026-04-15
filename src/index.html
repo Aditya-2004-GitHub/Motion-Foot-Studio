@@ -1,13 +1,111 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MotionFootStudio</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 </head>
+
 <body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <img src="logo-clear.png" class="loader-logo" alt="Motion Foot Studio" style="width:120px;height:90px;object-fit:contain;">
+    <div class="loader-bar">
+      <div class="loader-fill"></div>
+    </div>
+    <div class="loader-text">Motion Foot Studio</div>
+  </div>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursor-follower"></div>
+
+  <!-- FLOATING BUTTONS -->
+  <a href="https://wa.me/919371013687" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
   <app-root></app-root>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        gsap.to('#loader', {
+          opacity: 0, duration: 0.6, ease: 'power2.out', onComplete: () => {
+            document.getElementById('loader').style.display = 'none';
+          }
+        });
+      }, 1600);
+    });
+
+    const cursor = document.getElementById('cursor');
+    const cursorFollower = document.getElementById('cursor-follower');
+    let mx = 0, my = 0, fx = 0, fy = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      gsap.to(cursor, { x: mx, y: my, duration: 0 });
+    });
+
+    function followCursor() {
+      fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+      gsap.set(cursorFollower, { x: fx, y: fy });
+      requestAnimationFrame(followCursor);
+    }
+
+    followCursor();
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a,button,.service-card,.portfolio-item,.team-card')) {
+        cursor.classList.add('active');
+        cursorFollower.classList.add('active');
+      }
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest('a,button,.service-card,.portfolio-item,.team-card')) {
+        cursor.classList.remove('active');
+        cursorFollower.classList.remove('active');
+      }
+    });
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+      }
+      if (backToTop) {
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      }
+    });
+  </script>
 </body>
+
 </html>
